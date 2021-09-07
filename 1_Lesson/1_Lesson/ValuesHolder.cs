@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace _1_Lesson
 {
-    public class ValuesHolder : Collection<WeatherForecast>
+    public class ValuesHolder 
     {
-        
+        public List<WeatherForecast> WeatherForecasts { get; set; } = new List<WeatherForecast>();
     }
 }

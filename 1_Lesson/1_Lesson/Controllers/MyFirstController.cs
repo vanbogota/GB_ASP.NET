@@ -11,31 +11,34 @@ namespace _1_Lesson.Controllers
     [ApiController]
     public class MyFirstController : ControllerBase
     {
-        private readonly ValuesHolder _valuesHolder;
+        private readonly ValuesHolder _valuesHolder;        
 
         public MyFirstController(ValuesHolder valuesHolder)
         {
-            _valuesHolder = valuesHolder;
+            _valuesHolder = valuesHolder;            
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] DateTime inputDate, [FromBody] int inputTemp)
+        public IActionResult Create([FromBody] DateTime inputDate, [FromBody] int inputTemp = 12)
         {
-
-            _valuesHolder.Append(new WeatherForecast() { Date = inputDate, TemperatureC = inputTemp });            
+            if (inputDate == null)
+            {
+                inputDate = DateTime.Now;
+            }
+            _valuesHolder.WeatherForecasts.Append(new WeatherForecast() { Date = inputDate, TemperatureC = inputTemp });            
             return Ok();
         }
 
         [HttpGet]
         public List<int> Read([FromBody] DateTime date1, [FromBody] DateTime date2)
-        {
+        {            
             List<int> listOfTemp = new List<int>();
 
-            for (int i = 0; i < _valuesHolder.Count(); i++)
+            for (int i = 0; i < _valuesHolder.WeatherForecasts.Count(); i++)
             {
-                if (_valuesHolder[i].Date >= date1 && _valuesHolder[i].Date <= date2)
+                if (_valuesHolder.WeatherForecasts[i].Date >= date1 && _valuesHolder.WeatherForecasts[i].Date <= date2)
 
-                    listOfTemp.Add(_valuesHolder[i].TemperatureC);
+                    listOfTemp.Add(_valuesHolder.WeatherForecasts[i].TemperatureC);
             }
             return listOfTemp;
 
@@ -44,11 +47,11 @@ namespace _1_Lesson.Controllers
         [HttpPut]
         public IActionResult Update([FromBody] DateTime inputDate, [FromBody] int changeToTemp)
         {
-            for (int i = 0; i < _valuesHolder.ToList().Count(); i++)
+            for (int i = 0; i < _valuesHolder.WeatherForecasts.ToList().Count(); i++)
             {
-                if (_valuesHolder[i].Date == inputDate)
+                if (_valuesHolder.WeatherForecasts[i].Date == inputDate)
 
-                    _valuesHolder[i].TemperatureC = changeToTemp;
+                    _valuesHolder.WeatherForecasts[i].TemperatureC = changeToTemp;
             }
             
             return Ok();
@@ -57,11 +60,11 @@ namespace _1_Lesson.Controllers
         [HttpDelete]
         public IActionResult Delete([FromBody] DateTime date1, [FromBody] DateTime date2)
         {            
-            for (int i = 0; i < _valuesHolder.Count(); i++)
+            for (int i = 0; i < _valuesHolder.WeatherForecasts.Count(); i++)
             {
-                if (_valuesHolder[i].Date >= date1 && _valuesHolder[i].Date <= date2)
+                if (_valuesHolder.WeatherForecasts[i].Date >= date1 && _valuesHolder.WeatherForecasts[i].Date <= date2)
 
-                    _valuesHolder.Remove(_valuesHolder[i]);
+                    _valuesHolder.WeatherForecasts.Remove(_valuesHolder.WeatherForecasts[i]);
             }
             return Ok();
         }
