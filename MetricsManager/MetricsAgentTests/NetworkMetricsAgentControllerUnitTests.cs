@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MetricsAgent.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace MetricsAgentTests
@@ -10,10 +11,10 @@ namespace MetricsAgentTests
     public class NetworkMetricsAgentControllerUnitTests
     {
         private NetworkMetricsAgentController controller;
-
+        private ILogger<NetworkMetricsAgentController> loggerTest;
         public NetworkMetricsAgentControllerUnitTests()
         {
-            controller = new NetworkMetricsAgentController();
+            controller = new NetworkMetricsAgentController(loggerTest);
         }
 
         [Fact]

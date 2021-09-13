@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using MetricsAgent.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace MetricsAgentTests
@@ -10,10 +11,11 @@ namespace MetricsAgentTests
     public class RamMetricsAgentControllerUnitTests
     {
         private RamMetricsAgentController controller;
+        private ILogger<RamMetricsAgentController> loggerTest;
 
         public RamMetricsAgentControllerUnitTests()
         {
-            controller = new RamMetricsAgentController();
+            controller = new RamMetricsAgentController(loggerTest);
         }
 
         [Fact]

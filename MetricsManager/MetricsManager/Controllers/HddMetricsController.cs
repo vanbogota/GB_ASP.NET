@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,30 @@ namespace MetricsManager.Controllers
     [ApiController]
     public class HddMetricsController : ControllerBase
     {
-        [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+        private readonly ILogger<HddMetricsController> _logger;
+
+        public HddMetricsController(ILogger<HddMetricsController> logger)
         {
+            _logger = logger;
+            _logger.LogDebug(3, "NLog встроен в HddMetricsController");
+        }
+
+        [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
+        public IActionResult GetMetricsFromAgent(
+            [FromRoute] int agentId, 
+            [FromRoute] TimeSpan fromTime, 
+            [FromRoute] TimeSpan toTime)
+        {
+            _logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
             return Ok();
         }
 
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+        public IActionResult GetMetricsFromAllCluster(
+            [FromRoute] TimeSpan fromTime, 
+            [FromRoute] TimeSpan toTime)
         {
+            _logger.LogInformation($"HDDCluster - FromTime: {fromTime}, ToTime: {toTime}");
             return Ok();
         }
     }

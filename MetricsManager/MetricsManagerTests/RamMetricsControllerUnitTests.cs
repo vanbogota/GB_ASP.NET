@@ -1,5 +1,6 @@
 ﻿using MetricsManager.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using Xunit;
 
@@ -8,10 +9,10 @@ namespace MetricsManagerTests
     public class RamMetricsControllerUnitTests
     {
         private RamMetricsController controller;
-
+        private ILogger<RamMetricsController> loggerTest;
         public RamMetricsControllerUnitTests()
         {
-            controller = new RamMetricsController();
+            controller = new RamMetricsController(loggerTest);
         }
 
         [Fact]
