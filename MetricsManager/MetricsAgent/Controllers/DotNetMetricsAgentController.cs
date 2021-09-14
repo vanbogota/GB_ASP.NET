@@ -3,6 +3,7 @@ using MetricsAgent.Models;
 using MetricsAgent.Requests;
 using MetricsAgent.Responses;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 
@@ -12,24 +13,20 @@ namespace MetricsAgent.Controllers
     [ApiController]
     public class DotNetMetricsAgentController : ControllerBase
     {
-        //private readonly ILogger<DotNetMetricsAgentController> _logger;
+        private readonly ILogger<DotNetMetricsAgentController> _logger;        
 
-        //public DotNetMetricsAgentController(ILogger<DotNetMetricsAgentController> logger)
-        //{
-        //    _logger = logger;
-        //    _logger.LogDebug(2, "NLog встроен в DotNetMetricsAgentController");
-        //}
-
-        private IDotNetMetricsRepository repository;
-        public DotNetMetricsAgentController(IDotNetMetricsRepository repository)
+        private IDotNetMetricsRepository _repository;
+        public DotNetMetricsAgentController(IDotNetMetricsRepository repository, ILogger<DotNetMetricsAgentController> logger)
         {
-            this.repository = repository;
+            _repository = repository;
+            _logger = logger;
+            _logger.LogDebug(2, "NLog встроен в DotNetMetricsAgentController");
         }
 
         [HttpPost("create")]
         public IActionResult Create([FromBody] DotNetMetricCreateRequest request)
         {
-            repository.Create(new DotNetMetric
+            _repository.Create(new DotNetMetric
             {
                 Time = request.Time,
                 Value = request.Value
@@ -41,7 +38,7 @@ namespace MetricsAgent.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var metrics = repository.GetAll();
+            var metrics = _repository.GetAll();
 
             var response = new AllDotNetMetricsResponse()
             {

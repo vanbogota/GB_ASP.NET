@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using MetricsAgent.Controllers;
+using MetricsAgent.Interfaces;
+using MetricsAgent.Models;
+using MetricsAgent.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Moq;
 using Xunit;
 
 namespace MetricsAgentTests
@@ -11,25 +13,29 @@ namespace MetricsAgentTests
     public class HddMetricsAgentControllerUnitTests
     {
         private HddMetricsAgentController controller;
-        private ILogger<HddMetricsAgentController> loggerTest;
+        private Mock<IHddMetricsRepository> mock;
+        private Mock<ILogger<HddMetricsAgentController>> logMock;
+
         public HddMetricsAgentControllerUnitTests()
         {
-            controller = new HddMetricsAgentController(loggerTest);
+            mock = new Mock<IHddMetricsRepository>();
+            logMock = new Mock<ILogger<HddMetricsAgentController>>();
+
+            controller = new HddMetricsAgentController(mock.Object, logMock.Object);
         }
 
         [Fact]
-        public void GetMetricsFromAgent_ReturnsOk()
+        public void Create_ShouldCall_Create_From_Repository()
         {
-            //Arrange
-            var agentId = 3;
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
+            // устанавливаем параметр заглушки
+            // в заглушке прописываем что в репозиторий прилетит metric объект
+            mock.Setup(repository => repository.Create(It.IsAny<HddMetric>())).Verifiable();
 
-            //Act
-            var result = controller.GetMetricsFromAgent(agentId, fromTime, toTime);
-
-            //Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            // выполняем действие на контроллере
+            var result = controller.Create(new HddMetricCreateRequest { Time = TimeSpan.FromSeconds(1), Value = 50 });
+            // проверяем заглушку на то, что пока работал контроллер
+            // действительно вызвался метод Create репозитория с нужным типом объекта в параметре
+            mock.Verify(repository => repository.Create(It.IsAny<HddMetric>()), Times.AtMostOnce());
         }
 
         [Fact]

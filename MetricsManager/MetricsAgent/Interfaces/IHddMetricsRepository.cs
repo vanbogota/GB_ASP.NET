@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MetricsAgent.Interfaces
 {
-    interface IHddMetricsRepository : IRepository<HddMetric>
+    public interface IHddMetricsRepository : IRepository<HddMetric>
     {
     }
 }

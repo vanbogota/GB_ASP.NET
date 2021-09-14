@@ -6,6 +6,7 @@ using MetricsAgent.Repositories;
 using System.Collections.Generic;
 using MetricsAgent.Requests;
 using MetricsAgent.Responses;
+using Microsoft.Extensions.Logging;
 
 namespace MetricsAgent.Controllers
 {
@@ -13,23 +14,20 @@ namespace MetricsAgent.Controllers
     [ApiController]
     public class CpuMetricsAgentController : ControllerBase
     {
-        //private readonly ILogger<CpuMetricsAgentController> _logger;
-
-        //public CpuMetricsAgentController(ILogger<CpuMetricsAgentController> logger)
-        //{
-        //    _logger = logger;
-        //    _logger.LogDebug(1, "NLog встроен в CpuMetricsAgentController");
-        //}        
-        private ICpuMetricsRepository repository;
-        public CpuMetricsAgentController(ICpuMetricsRepository repository)
+        private readonly ILogger<CpuMetricsAgentController> _logger;
+            
+        private readonly ICpuMetricsRepository _repository;
+        public CpuMetricsAgentController(ICpuMetricsRepository repository, ILogger<CpuMetricsAgentController> logger)
         {
-            this.repository = repository;
+            _repository = repository;
+            _logger = logger;
+            _logger.LogDebug(1, "NLog встроен в CpuMetricsAgentController");
         }
 
         [HttpPost("create")]
         public IActionResult Create([FromBody] CpuMetricCreateRequest request)
         {
-            repository.Create(new CpuMetric
+            _repository.Create(new CpuMetric
             {
                 Time = request.Time,
                 Value = request.Value
@@ -41,7 +39,7 @@ namespace MetricsAgent.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var metrics = repository.GetAll();
+            var metrics = _repository.GetAll();
 
             var response = new AllCpuMetricsResponse()
             {

@@ -114,6 +114,36 @@ namespace MetricsAgent.Repositories
                 }
             }
         }
+
+        public IList<CpuMetric> GetByTimePeriod(TimeSpan fromTime, TimeSpan toTime)
+        {
+            using var connection = new SQLiteConnection(ConnectionString);
+            connection.Open();
+            using var cmd = new SQLiteCommand(connection);
+
+            // прописываем в команду SQL запрос на получение данных из таблицы по TimeSpan
+            cmd.CommandText = "SELECT * FROM cpumetrics WHERE time>=@fromTime AND time<=@toTime";
+
+            var returnList = new List<CpuMetric>();
+
+            using (SQLiteDataReader reader = cmd.ExecuteReader())
+            {
+                // пока есть что читать -- читаем
+                while (reader.Read())
+                {
+                    // добавляем объект в список возврата
+                    returnList.Add(new CpuMetric
+                    {
+                        Id = reader.GetInt32(0),
+                        Value = reader.GetInt32(1),
+                        // налету преобразуем прочитанные секунды в метку времени
+                        Time = TimeSpan.FromSeconds(reader.GetInt32(2))
+                    });
+                }
+            }
+
+            return returnList;
+        }
     }
 }
 

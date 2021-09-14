@@ -1,5 +1,7 @@
 using MetricsAgent.Controllers;
+using MetricsAgent.Interfaces;
 using MetricsAgent.Repositories;
+using MetricsAgent.Requests;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,6 +27,10 @@ namespace MetricsAgent
             services.AddControllers();
             services.AddSingleton<ValuesHolder>();
             ConfigureSqlLiteConnection(services);
+            services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
+            services.AddScoped<IDotNetMetricsRepository, DotNetMetricsRepository>();
+            services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
+            services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
             services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
         }
 

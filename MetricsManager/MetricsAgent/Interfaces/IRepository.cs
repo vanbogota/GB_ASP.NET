@@ -14,5 +14,6 @@ namespace MetricsAgent.Interfaces
         void Update(T item);
 
         void Delete(int id);
+        IList<T> GetByTimePeriod(TimeSpan fromTime, TimeSpan toTime);
     }
 }

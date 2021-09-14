@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MetricsAgent.Interfaces
 {
-    interface INetworkMetricsRepository : IRepository<NetworkMetric>
+    public interface INetworkMetricsRepository : IRepository<NetworkMetric>
     {
     }
 }
