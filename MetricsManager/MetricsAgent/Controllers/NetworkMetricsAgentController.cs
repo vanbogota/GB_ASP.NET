@@ -1,4 +1,5 @@
-﻿using MetricsAgent.Interfaces;
+﻿using AutoMapper;
+using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
 using MetricsAgent.Requests;
 using MetricsAgent.Responses;
@@ -16,6 +17,7 @@ namespace MetricsAgent.Controllers
         private readonly ILogger<NetworkMetricsAgentController> _logger;
                 
         private INetworkMetricsRepository _repository;
+        private readonly IMapper _mapper;
         public NetworkMetricsAgentController(INetworkMetricsRepository repository, ILogger<NetworkMetricsAgentController> logger)
         {
             _repository = repository;
@@ -38,7 +40,7 @@ namespace MetricsAgent.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var metrics = _repository.GetAll();
+            IList<NetworkMetric> metrics = _repository.GetAll();
 
             var response = new AllNetworkMetricsResponse()
             {
@@ -47,7 +49,7 @@ namespace MetricsAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new NetworkMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                response.Metrics.Add(_mapper.Map<NetworkMetricDto>(metric));
             }
 
             return Ok(response);

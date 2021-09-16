@@ -1,3 +1,4 @@
+using AutoMapper;
 using MetricsAgent.Controllers;
 using MetricsAgent.Interfaces;
 using MetricsAgent.Repositories;
@@ -32,6 +33,9 @@ namespace MetricsAgent
             services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
             services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
             services.AddScoped<ICpuMetricsRepository, CpuMetricsRepository>();
+            var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
+            var mapper = mapperConfiguration.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         private void ConfigureSqlLiteConnection(IServiceCollection services)

@@ -1,4 +1,5 @@
-﻿using MetricsAgent.Interfaces;
+﻿using AutoMapper;
+using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
 using MetricsAgent.Requests;
 using MetricsAgent.Responses;
@@ -16,9 +17,11 @@ namespace MetricsAgent.Controllers
         private readonly ILogger<RamMetricsAgentController> _logger;
                 
         private IRamNetMetricsRepository _repository;
-        public RamMetricsAgentController(IRamNetMetricsRepository repository, ILogger<RamMetricsAgentController> logger)
+        private readonly IMapper _mapper;
+        public RamMetricsAgentController(IRamNetMetricsRepository repository, ILogger<RamMetricsAgentController> logger, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
             _logger = logger;
             _logger.LogDebug(5, "NLog встроен в RamMetricsController");
         }
@@ -38,7 +41,7 @@ namespace MetricsAgent.Controllers
         [HttpGet("all")]
         public IActionResult GetAll()
         {
-            var metrics = _repository.GetAll();
+            IList<RamMetric> metrics = _repository.GetAll();
 
             var response = new AllRamMetricsResponse()
             {
@@ -47,7 +50,7 @@ namespace MetricsAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new RamMetricDto { Time = metric.Time, Value = metric.Value, Id = metric.Id });
+                response.Metrics.Add(_mapper.Map<RamMetricDto>(metric));
             }
 
             return Ok(response);
