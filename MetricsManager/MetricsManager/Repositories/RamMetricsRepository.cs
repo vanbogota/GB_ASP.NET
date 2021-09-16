@@ -1,13 +1,13 @@
 ﻿using Dapper;
-using MetricsAgent.Interfaces;
-using MetricsAgent.Models;
-using MetricsAgent.Servicies;
+using MetricsManager.Interfaces;
+using MetricsManager.Models;
+using MetricsManager.Servicies;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 
-namespace MetricsAgent.Repositories
+namespace MetricsManager.Repositories
 {
     public class RamMetricsRepository : IRamNetMetricsRepository
     {

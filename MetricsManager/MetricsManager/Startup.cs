@@ -1,20 +1,13 @@
 using AutoMapper;
-using MetricsAgent.Interfaces;
-using MetricsAgent.Repositories;
 using MetricsManager.Controllers;
+using MetricsManager.Interfaces;
+using MetricsManager.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MetricsManager
 {

@@ -18,9 +18,10 @@ namespace MetricsAgent.Controllers
                 
         private INetworkMetricsRepository _repository;
         private readonly IMapper _mapper;
-        public NetworkMetricsAgentController(INetworkMetricsRepository repository, ILogger<NetworkMetricsAgentController> logger)
+        public NetworkMetricsAgentController(INetworkMetricsRepository repository, ILogger<NetworkMetricsAgentController> logger, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
             _logger = logger;
             _logger.LogDebug(4, "NLog встроен в NetworkMetricsAgentController");
         }
@@ -58,21 +59,21 @@ namespace MetricsAgent.Controllers
         [HttpGet("from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            //_logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
+            _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
             return Ok();
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            //_logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
+            _logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
             return Ok();
         }
 
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            //_logger.LogInformation($"NetworkCluster - FromTime: {fromTime}, ToTime: {toTime}");
+            _logger.LogInformation($"NetworkCluster - FromTime: {fromTime}, ToTime: {toTime}");
             return Ok();
         }
     }

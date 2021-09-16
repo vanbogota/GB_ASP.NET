@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MetricsAgent.Models
+namespace MetricsManager.Models
 {
     public class BaseMetric
     {

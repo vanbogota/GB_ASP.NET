@@ -1,6 +1,6 @@
-﻿using MetricsAgent.Models;
+﻿using MetricsManager.Models;
 
-namespace MetricsAgent.Controllers
+namespace MetricsManager.Controllers
 {
     public class CpuMetric : BaseMetric
     {

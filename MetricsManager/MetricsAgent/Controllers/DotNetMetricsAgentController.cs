@@ -59,21 +59,21 @@ namespace MetricsAgent.Controllers
         [HttpGet("errors-count/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            //_logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
+            _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
             return Ok();
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            //_logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
+            _logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
             return Ok();
         }
 
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            //_logger.LogInformation($"DotNetCluster - FromTime: {fromTime}, ToTime: {toTime}");
+            _logger.LogInformation($"DotNetCluster - FromTime: {fromTime}, ToTime: {toTime}");
             return Ok();
         }
     }

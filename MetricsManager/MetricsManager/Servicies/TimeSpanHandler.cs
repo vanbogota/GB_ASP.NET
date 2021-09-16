@@ -2,7 +2,7 @@
 using System;
 using System.Data;
 
-namespace MetricsAgent.Servicies
+namespace MetricsManager.Servicies
 {
     // задаем хэндлер для парсинга значений в TimeSpan если таковые попадутся в наших классах моделей
     public class TimeSpanHandler : SqlMapper.TypeHandler<TimeSpan>

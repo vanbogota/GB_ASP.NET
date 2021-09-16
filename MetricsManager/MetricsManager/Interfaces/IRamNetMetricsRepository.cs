@@ -1,10 +1,7 @@
-﻿using MetricsAgent.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MetricsManager.Models;
+using MetricsManager.Repositories;
 
-namespace MetricsAgent.Interfaces
+namespace MetricsManager.Interfaces
 {
     public interface IRamNetMetricsRepository : IRepository<RamMetric>
     {

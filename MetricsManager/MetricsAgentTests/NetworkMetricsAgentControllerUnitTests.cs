@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using MetricsAgent.Controllers;
 using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
@@ -15,13 +16,13 @@ namespace MetricsAgentTests
         private NetworkMetricsAgentController controller;        
         private Mock<INetworkMetricsRepository> mock;
         private Mock<ILogger<NetworkMetricsAgentController>> logMock;
-
+        private Mock<IMapper> mapper;
         public NetworkMetricsAgentControllerUnitTests()
         {
             mock = new Mock<INetworkMetricsRepository>();
             logMock = new Mock<ILogger<NetworkMetricsAgentController>>();
-
-            controller = new NetworkMetricsAgentController(mock.Object, logMock.Object);
+            mapper = new Mock<IMapper>();
+            controller = new NetworkMetricsAgentController(mock.Object, logMock.Object, mapper.Object);
         }
 
         [Fact]

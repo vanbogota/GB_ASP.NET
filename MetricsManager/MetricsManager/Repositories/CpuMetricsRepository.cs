@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using Dapper;
-using MetricsAgent.Controllers;
-using MetricsAgent.Servicies;
+using MetricsManager.Controllers;
+using MetricsManager.Servicies;
 
-namespace MetricsAgent.Repositories
+namespace MetricsManager.Repositories
 {
     public class CpuMetricsRepository : ICpuMetricsRepository
     {

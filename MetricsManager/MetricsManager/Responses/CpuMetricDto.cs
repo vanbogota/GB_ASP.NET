@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MetricsAgent.Responses
+namespace MetricsManager.Responses
 {
     public class CpuMetricDto : BaseDto
     {        

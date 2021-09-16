@@ -1,6 +1,11 @@
-﻿using MetricsManager.Controllers;
+﻿using AutoMapper;
+using MetricsManager.Controllers;
+using MetricsManager.Interfaces;
+using MetricsManager.Models;
+using MetricsManager.Requests;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Moq;
 using System;
 using Xunit;
 
@@ -9,10 +14,29 @@ namespace MetricsManagerTests
     public class NetworkMetricsControllerUnitTests
     {
         private NetworkMetricsController controller;
-        private ILogger<NetworkMetricsController> loggerTest;
+        private Mock<INetworkMetricsRepository> mock;
+        private Mock<ILogger<NetworkMetricsController>> logMock;
+        private Mock<IMapper> mapper;
         public NetworkMetricsControllerUnitTests()
         {
-            controller = new NetworkMetricsController(loggerTest);
+            mock = new Mock<INetworkMetricsRepository>();
+            logMock = new Mock<ILogger<NetworkMetricsController>>();
+            mapper = new Mock<IMapper>();
+            controller = new NetworkMetricsController(mock.Object, logMock.Object, mapper.Object);
+        }
+
+        [Fact]
+        public void Create_ShouldCall_Create_From_Repository()
+        {
+            // устанавливаем параметр заглушки
+            // в заглушке прописываем что в репозиторий прилетит metric объект
+            mock.Setup(repository => repository.Create(It.IsAny<NetworkMetric>())).Verifiable();
+
+            // выполняем действие на контроллере
+            var result = controller.Create(new NetworkMetricCreateRequest { Time = TimeSpan.FromSeconds(1), Value = 50 });
+            // проверяем заглушку на то, что пока работал контроллер
+            // действительно вызвался метод Create репозитория с нужным типом объекта в параметре
+            mock.Verify(repository => repository.Create(It.IsAny<NetworkMetric>()), Times.AtMostOnce());
         }
 
         [Fact]

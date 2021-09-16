@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using MetricsManager.Interfaces;
+using MetricsManager.Models;
+using MetricsManager.Requests;
+using MetricsManager.Responses;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -14,10 +19,44 @@ namespace MetricsManager.Controllers
     {
         private readonly ILogger<RamMetricsController> _logger;
 
-        public RamMetricsController(ILogger<RamMetricsController> logger)
+        private IRamNetMetricsRepository _repository;
+        private readonly IMapper _mapper;
+        public RamMetricsController(IRamNetMetricsRepository repository, ILogger<RamMetricsController> logger, IMapper mapper)
         {
+            _repository = repository;
+            _mapper = mapper;
             _logger = logger;
             _logger.LogDebug(5, "NLog встроен в RamMetricsController");
+        }
+
+        [HttpPost("create")]
+        public IActionResult Create([FromBody] RamMetricCreateRequest request)
+        {
+            _repository.Create(new RamMetric
+            {
+                Time = request.Time,
+                Value = request.Value
+            });
+
+            return Ok();
+        }
+
+        [HttpGet("all")]
+        public IActionResult GetAll()
+        {
+            IList<RamMetric> metrics = _repository.GetAll();
+
+            var response = new AllRamMetricsResponse()
+            {
+                Metrics = new List<RamMetricDto>()
+            };
+
+            foreach (var metric in metrics)
+            {
+                response.Metrics.Add(_mapper.Map<RamMetricDto>(metric));
+            }
+
+            return Ok(response);
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]

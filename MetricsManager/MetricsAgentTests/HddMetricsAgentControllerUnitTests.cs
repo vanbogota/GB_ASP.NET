@@ -1,4 +1,5 @@
 ﻿using System;
+using AutoMapper;
 using MetricsAgent.Controllers;
 using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
@@ -15,13 +16,13 @@ namespace MetricsAgentTests
         private HddMetricsAgentController controller;
         private Mock<IHddMetricsRepository> mock;
         private Mock<ILogger<HddMetricsAgentController>> logMock;
-
+        private Mock<IMapper> mapper;
         public HddMetricsAgentControllerUnitTests()
         {
             mock = new Mock<IHddMetricsRepository>();
             logMock = new Mock<ILogger<HddMetricsAgentController>>();
-
-            controller = new HddMetricsAgentController(mock.Object, logMock.Object);
+            mapper = new Mock<IMapper>();
+            controller = new HddMetricsAgentController(mock.Object, logMock.Object, mapper.Object);
         }
 
         [Fact]

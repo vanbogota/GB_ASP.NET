@@ -1,7 +1,6 @@
-﻿using MetricsAgent.Interfaces;
-using MetricsAgent.Controllers;
+﻿using MetricsManager.Controllers;
 
-namespace MetricsAgent.Repositories
+namespace MetricsManager.Repositories
 {
     // маркировочный интерфейс
     // необходим, чтобы проверить работу репозитория на тесте-заглушке

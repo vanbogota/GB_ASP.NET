@@ -1,4 +1,4 @@
-﻿namespace MetricsAgent.Models
+﻿namespace MetricsManager.Models
 {
     public class DotNetMetric : BaseMetric
     {

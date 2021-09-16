@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AutoMapper;
 using MetricsAgent.Controllers;
 using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
@@ -17,13 +18,14 @@ namespace MetricsAgentTests
         private DotNetMetricsAgentController controller;
         private Mock<IDotNetMetricsRepository> mock;
         private Mock<ILogger<DotNetMetricsAgentController>> logMock;
+        private Mock<IMapper> mapper;
 
         public DotNetMetricsAgentControllerUnitTests()
         {
             mock = new Mock<IDotNetMetricsRepository>();
             logMock = new Mock<ILogger<DotNetMetricsAgentController>>();
-
-            controller = new DotNetMetricsAgentController(mock.Object, logMock.Object);
+            mapper = new Mock<IMapper>();
+            controller = new DotNetMetricsAgentController(mock.Object, logMock.Object, mapper.Object);
         }
 
         [Fact]

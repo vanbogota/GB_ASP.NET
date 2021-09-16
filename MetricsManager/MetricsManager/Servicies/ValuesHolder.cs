@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MetricsAgent.Controllers
+namespace MetricsManager.Controllers
 {
     public class ValuesHolder
     {
