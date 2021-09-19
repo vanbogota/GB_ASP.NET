@@ -87,7 +87,7 @@ namespace MetricsAgent.Repositories
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
-                return connection.Query<CpuMetric>("SELECT Id, Time, Value FROM cpumetrics WHERE time>=@fromTime AND time<=@toTime").ToList();
+                return connection.Query<CpuMetric>("SELECT Id, Time, Value FROM cpumetrics WHERE time>@fromTime AND time<@toTime").ToList();
             }
         }
     }
