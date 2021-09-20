@@ -16,7 +16,7 @@ namespace MetricsAgent.Controllers
     {
         private readonly ILogger<HddMetricsAgentController> _logger;
 
-        private IHddMetricsRepository _repository;
+        private readonly IHddMetricsRepository _repository;
         private readonly IMapper _mapper;
         public HddMetricsAgentController(IHddMetricsRepository repository, ILogger<HddMetricsAgentController> logger, IMapper mapper)
         {
@@ -60,7 +60,7 @@ namespace MetricsAgent.Controllers
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
-            return Ok();
+            return Ok(_repository.GetByTimePeriod(fromTime, toTime));
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]

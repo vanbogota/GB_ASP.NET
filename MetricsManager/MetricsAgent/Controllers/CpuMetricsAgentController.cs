@@ -74,8 +74,8 @@ namespace MetricsAgent.Controllers
         [HttpGet("from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
-            return Ok();
+            _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");            
+            return Ok(_repository.GetByTimePeriod(fromTime, toTime));
         }        
     }
 }

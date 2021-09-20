@@ -16,7 +16,7 @@ namespace MetricsAgent.Controllers
     {
         private readonly ILogger<NetworkMetricsAgentController> _logger;
                 
-        private INetworkMetricsRepository _repository;
+        private readonly INetworkMetricsRepository _repository;
         private readonly IMapper _mapper;
         public NetworkMetricsAgentController(INetworkMetricsRepository repository, ILogger<NetworkMetricsAgentController> logger, IMapper mapper)
         {
@@ -60,7 +60,7 @@ namespace MetricsAgent.Controllers
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
-            return Ok();
+            return Ok(_repository.GetByTimePeriod(fromTime, toTime));
         }
 
         [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]

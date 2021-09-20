@@ -59,6 +59,15 @@ namespace MetricsAgent
             services.AddSingleton(new JobSchedule(
                 jobType: typeof(RamMetricJob),
                 cronExpression: "0/5 * * * * ?"));
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(HddMetricJob),
+                cronExpression: "0/5 * * * * ?"));
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(DotNetMetricJob),
+                cronExpression: "0/5 * * * * ?"));
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(NetworkMetricJob),
+                cronExpression: "0/5 * * * * ?"));
             services.AddHostedService<QuartzHostedService>();
         }       
 
