@@ -16,7 +16,7 @@ namespace MetricsAgent.Jobs
         public DotNetMetricJob(IDotNetMetricsRepository repository)
         {
             _repository = repository;
-            _dotNetCounter = new PerformanceCounter(".Net", "gc-heap-size");
+            _dotNetCounter = new PerformanceCounter(".Net CLR Memory", "Process ID", "_Global_");
         }
 
         public Task Execute(IJobExecutionContext context)
