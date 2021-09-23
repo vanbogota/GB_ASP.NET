@@ -1,5 +1,7 @@
 ﻿using MetricsAgent.Interfaces;
 using MetricsAgent.Models;
+using MetricsManager.Interfaces;
+using MetricsManager.Models;
 using Quartz;
 using System;
 using System.Collections.Generic;
@@ -9,21 +11,21 @@ using System.Threading.Tasks;
 
 namespace MetricsAgent.Jobs
 {
-    public class HddMetricJob : IJob
+    public class NetworkMetricJob : IJob
     {
-        private readonly IHddMetricsRepository _repository;
+        private readonly INetworkMetricsRepository _repository;
         private readonly PerformanceCounter _hddCounter;
-        public HddMetricJob(IHddMetricsRepository repository)
+        public NetworkMetricJob(INetworkMetricsRepository repository)
         {
             _repository = repository;
-            _hddCounter = new PerformanceCounter("PhisicalDisk", "% Memory", "_Total");
+            _hddCounter = new PerformanceCounter("NetworkAdapter", "Bytes Total/sec");
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var hddMemoryInPercent = Convert.ToInt32(_hddCounter.NextValue());
+            var networkSpeed = Convert.ToInt32(_hddCounter.NextValue());
             var time = TimeSpan.FromSeconds(DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-            _repository.Create(new HddMetric { Time = time, Value = hddMemoryInPercent });
+            _repository.Create(new NetworkMetric { Time = time, Value = networkSpeed });
             return Task.CompletedTask;
         }
     }

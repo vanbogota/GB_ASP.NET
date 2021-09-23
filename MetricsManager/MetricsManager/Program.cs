@@ -14,24 +14,26 @@ namespace MetricsManager
     {
         public static void Main(string[] args)
         {
-            var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-            try
-            {
-                logger.Debug("init main");
-                CreateHostBuilder(args).Build().Run();
-            }
-            // отлов всех исключений в рамках работы приложения
-            catch (Exception ex)
-            {
-                //NLog: устанавливаем отлов исключений
-                logger.Error(ex, "Stopped program because of exception");
-                throw;
-            }
-            finally
-            {
-                //остановка логгера
-                NLog.LogManager.Shutdown();
-            }
+            CreateHostBuilder(args).Build().Run();
+
+            //var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            //try
+            //{
+            //    logger.Debug("init main");
+            //    CreateHostBuilder(args).Build().Run();
+            //}
+            //// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            //catch (Exception ex)
+            //{
+            //    //NLog: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            //    logger.Error(ex, "Stopped program because of exception");
+            //    throw;
+            //}
+            //finally
+            //{
+            //    //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+            //    NLog.LogManager.Shutdown();
+            //}
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -42,8 +44,8 @@ namespace MetricsManager
                 })
                 .ConfigureLogging(logging => 
                 {
-                    logging.ClearProviders(); // создание провайдеров логирования
-                    logging.SetMinimumLevel(LogLevel.Trace); // устанавливаем минимальный уровень логирования
-                }).UseNLog(); // добавляем библиотеку nlog
+                    logging.ClearProviders(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                    logging.SetMinimumLevel(LogLevel.Trace); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+                }).UseNLog(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ nlog
     }
 }

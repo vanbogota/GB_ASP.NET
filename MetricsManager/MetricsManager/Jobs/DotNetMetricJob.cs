@@ -1,5 +1,5 @@
-﻿using MetricsAgent.Interfaces;
-using MetricsAgent.Models;
+﻿using MetricsManager.Interfaces;
+using MetricsManager.Models;
 using Quartz;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MetricsAgent.Jobs
+namespace MetricsManager.Jobs
 {
     public class DotNetMetricJob : IJob
     {

@@ -1,11 +1,8 @@
-﻿using MetricsAgent.Interfaces;
-using MetricsAgent.Models;
-using MetricsAgent.Repositories;
+﻿using MetricsManager.Interfaces;
+using MetricsManager.Models;
 using Quartz;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MetricsAgent.Jobs
