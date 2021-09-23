@@ -11,7 +11,7 @@ namespace MetricsManager.Client
 
         AllHddMetricsApiResponse GetAllHddMetrics(GetAllHddMetricsApiRequest request);
 
-        DonNetMetricsApiResponse GetDonNetMetrics(DonNetHeapMetrisApiRequest request);
+        DotNetMetricsApiResponse GetDonNetMetrics(DotNetHeapMetrisApiRequest request);
 
         AllCpuMetricsApiResponse GetCpuMetrics(GetAllCpuMetricsApiRequest request);
     }

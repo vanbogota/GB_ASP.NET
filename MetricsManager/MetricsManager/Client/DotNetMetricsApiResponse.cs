@@ -1,6 +1,6 @@
 ﻿namespace MetricsManager.Client
 {
-    public class DonNetHeapMetrisApiRequest
+    public class DotNetMetricsApiResponse
     {
     }
 }

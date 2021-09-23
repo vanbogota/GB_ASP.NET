@@ -2,7 +2,7 @@
 
 namespace MetricsManager.Client
 {
-    public class GetAllHddMetricsApiRequest
+    public class DotNetHeapMetrisApiRequest
     {
         public Uri ClientBaseAdress { get; set; }
         public TimeSpan FromTime { get; set; }
