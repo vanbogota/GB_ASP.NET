@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace MetricsManager.Client
 {
-    interface IMetricsAgentClient
+    public interface IMetricsAgentClient
     {
         AllRamMetricsApiResponse GetAllRamMetrics(GetAllRamMetricsApiRequest request);
 
         AllHddMetricsApiResponse GetAllHddMetrics(GetAllHddMetricsApiRequest request);
 
-        DotNetMetricsApiResponse GetDonNetMetrics(DotNetHeapMetrisApiRequest request);
+        DotNetMetricsApiResponse GetDotNetMetrics(DotNetHeapMetrisApiRequest request);
 
         AllCpuMetricsApiResponse GetCpuMetrics(GetAllCpuMetricsApiRequest request);
     }

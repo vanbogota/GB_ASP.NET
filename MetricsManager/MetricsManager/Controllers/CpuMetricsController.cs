@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MetricsManager.Client;
 using MetricsManager.Repositories;
 using MetricsManager.Requests;
 using MetricsManager.Responses;
@@ -21,6 +22,7 @@ namespace MetricsManager.Controllers
 
         private readonly ICpuMetricsRepository _repository;
         private readonly IMapper _mapper;
+        //private readonly 
         public CpuMetricsController(ICpuMetricsRepository repository, ILogger<CpuMetricsController> logger, IMapper mapper)
         {
             _repository = repository;
@@ -65,7 +67,16 @@ namespace MetricsManager.Controllers
             [FromRoute] TimeSpan fromTime, 
             [FromRoute] TimeSpan toTime)
         {
-            _logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
+            // логируем, что мы пошли в соседний сервис
+            _logger.LogInformation($"starting new request to metrics agent");
+            //// обращение в сервис
+            //var metrics = metricsAgentClient.GetCpuMetrics(new GetAllCpuMetricsApiRequest
+            //{
+            //    FromTime = fromTime,
+            //    ToTime = toTime
+            //});
+
+            //return Ok(metrics);
             return Ok();
         }
 
@@ -74,8 +85,8 @@ namespace MetricsManager.Controllers
             [FromRoute] TimeSpan fromTime, 
             [FromRoute] TimeSpan toTime)
         {
-            _logger.LogInformation($"CPUCluster - FromTime: {fromTime}, ToTime: {toTime}");
-            return Ok();
+            _logger.LogInformation($"Запрос CPUCluster - FromTime: {fromTime}, ToTime: {toTime}");
+            return Ok(_repository.GetByTimePeriod(fromTime, toTime));
         }
     }
 }

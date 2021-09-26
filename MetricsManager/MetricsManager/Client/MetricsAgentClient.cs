@@ -20,7 +20,7 @@ namespace MetricsManager.Client
         {
             var fromParameter = request.FromTime.TotalSeconds;
             var toParameter = request.ToTime.TotalSeconds;
-            var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{request.ClientBaseAdress}/api/hddmetrics/from/{fromParameter}/to/{toParameter}");
+            var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{request.ClientBaseAdress}/api/metrics/hdd/left/from/{fromParameter}/to/{toParameter}");
             try
             {
                 HttpResponseMessage response = _httpClient.SendAsync(httpRequest).Result;
@@ -33,7 +33,50 @@ namespace MetricsManager.Client
                 _logger.LogError(ex.Message);
                 return null;
             }            
-        }           
+        }
+
+        public AllRamMetricsApiResponse GetAllRamMetrics(GetAllRamMetricsApiRequest request)
+        {
+            var fromParameter = request.FromTime.TotalSeconds;
+            var toParameter = request.ToTime.TotalSeconds;
+            var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{request.ClientBaseAdress}/api/metrics/ram/available/from/{fromParameter}/to/{toParameter}");
+            try
+            {
+                HttpResponseMessage response = _httpClient.SendAsync(httpRequest).Result;
+
+                using var responseStream = response.Content.ReadAsStreamAsync().Result;
+                return JsonSerializer.DeserializeAsync<AllRamMetricsApiResponse>(responseStream, new JsonSerializerOptions(JsonSerializerDefaults.Web)).Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return null;
+            }
+        }
+
+        public AllCpuMetricsApiResponse GetCpuMetrics(GetAllCpuMetricsApiRequest request)
+        {
+            var fromParameter = request.FromTime.TotalSeconds;
+            var toParameter = request.ToTime.TotalSeconds;
+            var httpRequest = new HttpRequestMessage(HttpMethod.Get, $"{request.ClientBaseAdress}/api/metrics/cpu/from/{fromParameter}/to/{toParameter}");
+            try
+            {
+                HttpResponseMessage response = _httpClient.SendAsync(httpRequest).Result;
+
+                using var responseStream = response.Content.ReadAsStreamAsync().Result;
+                return JsonSerializer.DeserializeAsync<AllCpuMetricsApiResponse>(responseStream, new JsonSerializerOptions(JsonSerializerDefaults.Web)).Result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return null;
+            }
+        }
+
+        public DotNetMetricsApiResponse GetDotNetMetrics(DotNetHeapMetrisApiRequest request)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

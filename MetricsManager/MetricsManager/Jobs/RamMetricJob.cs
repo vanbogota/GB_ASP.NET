@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace MetricsAgent.Jobs
+namespace MetricsManager.Jobs
 {
     public class RamMetricJob : IJob
     {

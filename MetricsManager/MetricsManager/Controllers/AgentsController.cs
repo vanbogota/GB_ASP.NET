@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MetricsManager.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MetricsManager.Controllers
 {
@@ -6,8 +7,9 @@ namespace MetricsManager.Controllers
     [ApiController]
     public partial class AgentsController : ControllerBase
     {
-        private readonly ValuesHolder _holder;
-        public AgentsController(ValuesHolder holder)
+
+        private readonly IAgentsRepository _holder;
+        public AgentsController(IAgentsRepository holder)
         {
             _holder = holder;
         }
@@ -15,26 +17,28 @@ namespace MetricsManager.Controllers
         [HttpPost("register")]
         public IActionResult RegisterAgent([FromBody] AgentInfo agentInfo)
         {
-            _holder.Agents.Add(agentInfo);
+            _holder.Create(agentInfo);
             return Ok();
         }
 
         [HttpPut("enable/{agentId}")]
         public IActionResult EnableAgentById([FromRoute] int agentId)
-        {
-            return Ok();
+        {            
+            return Ok(_holder.GetById(agentId));
         }
 
         [HttpPut("disable/{agentId}")]
         public IActionResult DisableAgentById([FromRoute] int agentId)
         {
+            _holder.Delete(agentId);
             return Ok();
         }
 
         [HttpGet("getlist")]
         public IActionResult RegistredAgents()
         {
-            return Ok(_holder);
+            var agentsList = _holder.GetAll();
+            return Ok(agentsList);
         }
     }
 }

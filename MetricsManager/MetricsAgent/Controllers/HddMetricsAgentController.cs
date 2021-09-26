@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 namespace MetricsAgent.Controllers
 {
+    /// <summary>
+    /// Контроллер метрик жесткого диска
+    /// </summary>
     [Route("api/metrics/hdd")]
     [ApiController]
     public class HddMetricsAgentController : ControllerBase
@@ -63,12 +66,7 @@ namespace MetricsAgent.Controllers
             return Ok(_repository.GetByTimePeriod(fromTime, toTime));
         }
 
-        [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
-        {
-            _logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
-            return Ok();
-        }
+        
 
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)

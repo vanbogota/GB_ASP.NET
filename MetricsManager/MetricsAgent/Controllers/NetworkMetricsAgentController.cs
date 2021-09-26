@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 namespace MetricsAgent.Controllers
 {
+    /// <summary>
+    /// Контроллер метрик сетевых ресурсов
+    /// </summary>
     [Route("api/metrics/network")]
     [ApiController]
     public class NetworkMetricsAgentController : ControllerBase

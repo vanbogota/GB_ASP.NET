@@ -2,6 +2,9 @@
 
 namespace MetricsAgent.Controllers
 {
+    /// <summary>
+    /// Контроллер для сбора агентов
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class AgentMetricsController : ControllerBase
@@ -11,7 +14,11 @@ namespace MetricsAgent.Controllers
         {
             _holder = holder;
         }
-
+        /// <summary>
+        /// Регистрируем агента
+        /// </summary>
+        /// <param name="agentInfo"></param>
+        /// <returns></returns>
         [HttpPost("register")]
         public IActionResult RegisterAgent([FromBody] AgentInfo agentInfo)
         {
@@ -30,11 +37,15 @@ namespace MetricsAgent.Controllers
         {
             return Ok();
         }
-
+        /// <summary>
+        /// Получаем список всех зарегистрированных агентов
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("getlist")]
         public IActionResult RegistredAgents()
         {
-            return Ok(_holder);
+            var agentsList = _holder.Agents;
+            return Ok(agentsList);
         }
     }
 }

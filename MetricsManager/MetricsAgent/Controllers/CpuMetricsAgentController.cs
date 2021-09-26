@@ -11,6 +11,9 @@ using AutoMapper;
 
 namespace MetricsAgent.Controllers
 {
+    /// <summary>
+    /// Контроллер метрик процессора
+    /// </summary>
     [Route("api/metrics/cpu")]
     [ApiController]
     public class CpuMetricsAgentController : ControllerBase
@@ -26,7 +29,11 @@ namespace MetricsAgent.Controllers
             _logger = logger;
             _logger.LogDebug(1, "NLog встроен в CpuMetricsAgentController");
         }
-
+        /// <summary>
+        /// Создаем метрику
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("create")]
         public IActionResult Create([FromBody] CpuMetricCreateRequest request)
         {
@@ -38,7 +45,10 @@ namespace MetricsAgent.Controllers
 
             return Ok();
         }
-
+        /// <summary>
+        /// Возвращает все имеющиеся метрики
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -56,14 +66,7 @@ namespace MetricsAgent.Controllers
 
             return Ok(response);
         }  
-
-        [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
-        {
-            _logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
-            return Ok();
-        }
-
+                
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
@@ -71,6 +74,12 @@ namespace MetricsAgent.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Возвращает метрики за заданный промежуток времени
+        /// </summary>
+        /// <param name="fromTime"></param>
+        /// <param name="toTime"></param>
+        /// <returns></returns>
         [HttpGet("from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {

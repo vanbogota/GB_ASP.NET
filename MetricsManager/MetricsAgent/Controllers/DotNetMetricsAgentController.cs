@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 namespace MetricsAgent.Controllers
 {
+    /// <summary>
+    /// Контроллер метрик платформы .NET
+    /// </summary>
     [Route("api/metrics/dotnet")]
     [ApiController]
     public class DotNetMetricsAgentController : ControllerBase
@@ -62,13 +65,7 @@ namespace MetricsAgent.Controllers
             _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
             return Ok(_repository.GetByTimePeriod(fromTime, toTime));
         }
-
-        [HttpGet("agent/{agentId}/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
-        {
-            _logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
-            return Ok();
-        }
+             
 
         [HttpGet("cluster/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAllCluster([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)

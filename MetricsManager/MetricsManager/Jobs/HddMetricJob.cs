@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace MetricsAgent.Jobs
+namespace MetricsManager.Jobs
 {
     public class HddMetricJob : IJob
     {
@@ -14,7 +14,7 @@ namespace MetricsAgent.Jobs
         public HddMetricJob(IHddMetricsRepository repository)
         {
             _repository = repository;
-            _hddCounter = new PerformanceCounter("PhisicalDisk", "% Memory", "_Total");
+            _hddCounter = new PerformanceCounter("LogicalDisk", "% Free Space", "_Total");
         }
 
         public Task Execute(IJobExecutionContext context)

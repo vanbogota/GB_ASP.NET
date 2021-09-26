@@ -15,7 +15,7 @@ namespace MetricsManager.Servicies
         private readonly IEnumerable<JobSchedule> _jobSchedules;
 
         public QuartzHostedService(
-            ICpuMetricsRepository repository,
+            //ICpuMetricsRepository repository,
             ISchedulerFactory schedulerFactory,
             IJobFactory jobFactory,
             IEnumerable<JobSchedule> jobSchedules)

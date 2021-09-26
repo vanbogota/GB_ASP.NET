@@ -10,6 +10,7 @@ using System.Collections.Generic;
 
 namespace MetricsManager.Controllers
 {
+    
     [Route("api/metrics/hdd")]
     [ApiController]
     public class HddMetricsController : ControllerBase
@@ -71,8 +72,8 @@ namespace MetricsManager.Controllers
             [FromRoute] TimeSpan fromTime, 
             [FromRoute] TimeSpan toTime)
         {
-            _logger.LogInformation($"HDDCluster - FromTime: {fromTime}, ToTime: {toTime}");
-            return Ok();
+            _logger.LogInformation($"Запрос HDDCluster - FromTime: {fromTime}, ToTime: {toTime}");
+            return Ok(_repository.GetByTimePeriod(fromTime, toTime));
         }
     }
 }

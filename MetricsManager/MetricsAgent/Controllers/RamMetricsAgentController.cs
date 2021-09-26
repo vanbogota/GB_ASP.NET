@@ -10,6 +10,9 @@ using System.Collections.Generic;
 
 namespace MetricsAgent.Controllers
 {
+    /// <summary>
+    /// Контроллер метрик оперативной памяти
+    /// </summary>
     [Route("api/metrics/ram")]
     [ApiController]
     public class RamMetricsAgentController : ControllerBase
@@ -25,7 +28,11 @@ namespace MetricsAgent.Controllers
             _logger = logger;
             _logger.LogDebug(5, "NLog встроен в RamMetricsController");
         }
-
+        /// <summary>
+        /// Создаем метрику
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost("create")]
         public IActionResult Create([FromBody] RamMetricCreateRequest request)
         {
@@ -37,7 +44,11 @@ namespace MetricsAgent.Controllers
 
             return Ok();
         }
-
+        
+        /// <summary>
+        /// Получаем все имеющиеся метрики
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("all")]
         public IActionResult GetAll()
         {
@@ -55,11 +66,17 @@ namespace MetricsAgent.Controllers
 
             return Ok(response);
         }
-
+        /// <summary>
+        /// Получаем метрики за заданный промежуток времени
+        /// </summary>
+        /// <param name="fromTime"></param>
+        /// <param name="toTime"></param>
+        /// <returns></returns>
         [HttpGet("available/from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
+            
             return Ok(_repository.GetByTimePeriod(fromTime, toTime));
         }
 
@@ -67,6 +84,7 @@ namespace MetricsAgent.Controllers
         public IActionResult GetMetricsFromAgent([FromRoute] int agentId, [FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             _logger.LogInformation($"AgentId: {agentId}, FromTime: {fromTime}, ToTime: {toTime}");
+
             return Ok();
         }
 

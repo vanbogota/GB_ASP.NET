@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace MetricsManager.Controllers
 {
+    
     [Route("api/metrics/ram")]
     [ApiController]
     public class RamMetricsController : ControllerBase
     {
         private readonly ILogger<RamMetricsController> _logger;
-
-        private IRamNetMetricsRepository _repository;
+        private readonly IRamNetMetricsRepository _repository;
         private readonly IMapper _mapper;
         public RamMetricsController(IRamNetMetricsRepository repository, ILogger<RamMetricsController> logger, IMapper mapper)
         {
@@ -74,8 +74,8 @@ namespace MetricsManager.Controllers
             [FromRoute] TimeSpan fromTime, 
             [FromRoute] TimeSpan toTime)
         {
-            _logger.LogInformation($"RamCluster - FromTime: {fromTime}, ToTime: {toTime}");
-            return Ok();
+            _logger.LogInformation($"Запрос RamCluster - FromTime: {fromTime}, ToTime: {toTime}");
+            return Ok(_repository.GetByTimePeriod(fromTime, toTime));
         }
     }
 }

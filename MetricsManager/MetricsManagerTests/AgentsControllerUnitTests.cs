@@ -1,4 +1,5 @@
 ﻿using MetricsManager.Controllers;
+using MetricsManager.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using Xunit;
@@ -8,7 +9,7 @@ namespace MetricsManagerTests
     public class AgentsControllerUnitTests
     {
         private AgentsController controller;
-        private ValuesHolder values;
+        private IAgentsRepository values;
 
         public AgentsControllerUnitTests()
         {

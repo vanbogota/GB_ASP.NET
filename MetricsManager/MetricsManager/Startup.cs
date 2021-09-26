@@ -3,15 +3,23 @@ using FluentMigrator.Runner;
 using MetricsManager.Client;
 using MetricsManager.Controllers;
 using MetricsManager.Interfaces;
+using MetricsManager.Jobs;
 using MetricsManager.Repositories;
+using MetricsManager.Servicies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Polly;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
 using System;
 using System.Data.SQLite;
+using System.IO;
+using System.Reflection;
 
 namespace MetricsManager
 {
@@ -29,13 +37,13 @@ namespace MetricsManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddSingleton<ValuesHolder>();
+            services.AddControllers();            
             services.AddSingleton<ICpuMetricsRepository, CpuMetricsRepository>();
             services.AddSingleton<IDotNetMetricsRepository, DotNetMetricsRepository>();
             services.AddSingleton<IHddMetricsRepository, HddMetricsRepository>();
             services.AddSingleton<INetworkMetricsRepository, NetworkMetricsRepository>();
             services.AddSingleton<IRamNetMetricsRepository, RamMetricsRepository>();
+            services.AddSingleton<IAgentsRepository, AgentsRepository>();
             var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
             var mapper = mapperConfiguration.CreateMapper();
             services.AddSingleton(mapper);
@@ -47,12 +55,27 @@ namespace MetricsManager
                 ).AddLogging(lb => lb
                     .AddFluentMigratorConsole());
             services.AddHttpClient<IMetricsAgentClient, MetricsAgentClient>()
-                .AddTransientHttpErrorPolicy(p =>
-                p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(1000)));
-            services.AddHttpClient<IMetricsAgentClient, 
-                MetricsAgentClient>()
                 .AddTransientHttpErrorPolicy(p => p.WaitAndRetryAsync(3, _ => TimeSpan.FromMilliseconds(1000)));
-
+            services.AddSingleton<IJobFactory, SingletonJobFactory>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+            services.AddSingleton<CpuMetricJob>();
+            services.AddSingleton<RamMetricJob>();
+            services.AddSingleton<HddMetricJob>();
+            services.AddHostedService<QuartzHostedService>();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Version = "v2",
+                    Title = "API сервиса агента сбора метрик",
+                    Description = "“ут можно поиграть с api нашего сервиса",
+                    
+                });
+                // ”казываем файл из которого брать комментарии дл€ Swagger UI
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +88,14 @@ namespace MetricsManager
             {
                 app.UseDeveloperExceptionPage();
             }
-                        
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API сервиса менеджера сбора метрик");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseRouting();
 
             app.UseAuthorization();

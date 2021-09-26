@@ -11,11 +11,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using System;
 using System.Data.SQLite;
+using System.IO;
+using System.Reflection;
 
 namespace MetricsAgent
 {
@@ -64,16 +67,33 @@ namespace MetricsAgent
             services.AddSingleton(new JobSchedule(
                 jobType: typeof(HddMetricJob),
                 cronExpression: "0/5 * * * * ?"));
-            services.AddSingleton<DotNetMetricJob>();
-            services.AddSingleton(new JobSchedule(
-                jobType: typeof(DotNetMetricJob),
-                cronExpression: "0/5 * * * * ?"));
-            services.AddSingleton<NetworkMetricJob>();
-            services.AddSingleton(new JobSchedule(
-                jobType: typeof(NetworkMetricJob),
-                cronExpression: "0/5 * * * * ?"));
             services.AddHostedService<QuartzHostedService>();
             services.AddHttpClient();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "API сервиса агента сбора метрик",
+                    Description = "“ут можно поиграть с api нашего сервиса",
+                    //TermsOfService = new Uri("https://example.com/terms"),
+                    //Contact = new OpenApiContact
+                    //{
+                    //    Name = "Bogdanov",
+                    //    Email = string.Empty,
+                    //    Url = new Uri("https://kremlin.ru"),
+                    //},
+                    //License = new OpenApiLicense
+                    //{
+                    //    Name = "можно указать под какой лицензией все опубликовано",
+                    //    Url = new Uri("https://example.com/license"),
+                    //}
+                });
+                // ”казываем файл из которого брать комментарии дл€ Swagger UI
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }       
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +103,14 @@ namespace MetricsAgent
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API сервиса агента сбора метрик");
+                c.RoutePrefix = string.Empty;
+            });
                        
             app.UseRouting();
 
