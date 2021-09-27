@@ -1,6 +1,8 @@
-﻿namespace MetricsManager.Client
+﻿using MetricsManager.Models;
+
+namespace MetricsManager.Client
 {
-    public class AllHddMetricsApiResponse
+    public class AllHddMetricsApiResponse : BaseMetricsApiResponse<HddMetric>
     {
     }
 }

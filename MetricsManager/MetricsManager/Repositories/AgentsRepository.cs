@@ -64,7 +64,7 @@ namespace MetricsManager.Repositories
 
         public IList<AgentInfo> GetByTimePeriod(TimeSpan fromTime, TimeSpan toTime)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Недопустимая операция");
         }
 
         public void Update(AgentInfo agent)

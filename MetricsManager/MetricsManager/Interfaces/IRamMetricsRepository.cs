@@ -3,7 +3,7 @@ using MetricsManager.Repositories;
 
 namespace MetricsManager.Interfaces
 {
-    public interface IRamNetMetricsRepository : IRepository<RamMetric>
+    public interface IRamMetricsRepository : IRepository<RamMetric>
     {
     }
 }

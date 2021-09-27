@@ -14,12 +14,12 @@ namespace MetricsManagerTests
     public class RamMetricsControllerUnitTests
     {
         private RamMetricsController controller;
-        private Mock<IRamNetMetricsRepository> mock;
+        private Mock<IRamMetricsRepository> mock;
         private Mock<ILogger<RamMetricsController>> logMock;
         private Mock<IMapper> mapper;
         public RamMetricsControllerUnitTests()
         {
-            mock = new Mock<IRamNetMetricsRepository>();
+            mock = new Mock<IRamMetricsRepository>();
             logMock = new Mock<ILogger<RamMetricsController>>();
             mapper = new Mock<IMapper>();
             controller = new RamMetricsController(mock.Object, logMock.Object, mapper.Object);

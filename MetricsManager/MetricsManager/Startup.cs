@@ -42,7 +42,7 @@ namespace MetricsManager
             services.AddSingleton<IDotNetMetricsRepository, DotNetMetricsRepository>();
             services.AddSingleton<IHddMetricsRepository, HddMetricsRepository>();
             services.AddSingleton<INetworkMetricsRepository, NetworkMetricsRepository>();
-            services.AddSingleton<IRamNetMetricsRepository, RamMetricsRepository>();
+            services.AddSingleton<IRamMetricsRepository, RamMetricsRepository>();
             services.AddSingleton<IAgentsRepository, AgentsRepository>();
             var mapperConfiguration = new MapperConfiguration(mp => mp.AddProfile(new MapperProfile()));
             var mapper = mapperConfiguration.CreateMapper();

@@ -19,9 +19,9 @@ namespace MetricsManager.Controllers
     public class RamMetricsController : ControllerBase
     {
         private readonly ILogger<RamMetricsController> _logger;
-        private readonly IRamNetMetricsRepository _repository;
+        private readonly IRamMetricsRepository _repository;
         private readonly IMapper _mapper;
-        public RamMetricsController(IRamNetMetricsRepository repository, ILogger<RamMetricsController> logger, IMapper mapper)
+        public RamMetricsController(IRamMetricsRepository repository, ILogger<RamMetricsController> logger, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

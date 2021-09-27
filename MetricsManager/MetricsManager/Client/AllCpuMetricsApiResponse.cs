@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace MetricsManager.Client
 {
-    public class AllCpuMetricsApiResponse
-    {
-        public List<CpuMetric> agentCpuMetrics { get; set; }
+    public class AllCpuMetricsApiResponse : BaseMetricsApiResponse<CpuMetric>
+    {        
     }
 }

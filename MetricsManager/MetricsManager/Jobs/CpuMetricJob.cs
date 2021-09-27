@@ -5,6 +5,7 @@ using MetricsManager.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,12 +32,17 @@ namespace MetricsManager.Jobs
             var agentsList = _agentsRepository.GetAll();
             foreach (var agent in agentsList)
             {
-               var temp = _metricsAgentClient.GetCpuMetrics(new GetAllCpuMetricsApiRequest 
+               var allCpuMetricsResponce = _metricsAgentClient.GetCpuMetrics(new GetAllCpuMetricsApiRequest 
                 {
                    ClientBaseAdress = agent.AgentAdress,
                    FromTime = _repository.GetAll().Max(p => p.Time),
                    ToTime = DateTime.UtcNow.TimeOfDay,
-                });            
+                });
+
+                foreach (CpuMetric cpuMetric in allCpuMetricsResponce.Metrics)
+                {
+                    _repository.Create(cpuMetric);
+                }           
 
             }
             return Task.CompletedTask;

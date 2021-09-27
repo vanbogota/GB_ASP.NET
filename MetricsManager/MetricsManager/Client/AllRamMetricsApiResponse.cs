@@ -1,6 +1,8 @@
-﻿namespace MetricsManager.Client
+﻿using MetricsManager.Models;
+
+namespace MetricsManager.Client
 {
-    public class AllRamMetricsApiResponse
+    public class AllRamMetricsApiResponse :BaseMetricsApiResponse<RamMetric>
     {
     }
 }
