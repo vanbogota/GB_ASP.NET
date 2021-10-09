@@ -32,7 +32,7 @@ namespace MetricsManager.Jobs
             var agentsList = _agentsRepository.GetAll();
             foreach (var agent in agentsList)
             {
-               var allCpuMetricsResponce = _metricsAgentClient.GetCpuMetrics(new GetAllCpuMetricsApiRequest 
+                var allCpuMetricsResponce = _metricsAgentClient.GetCpuMetrics(new GetAllCpuMetricsApiRequest 
                 {
                    ClientBaseAdress = agent.AgentAdress,
                    FromTime = _repository.GetAll().Max(p => p.Time),

@@ -12,7 +12,7 @@ namespace MetricsManager.Repositories
 {
     public class AgentsRepository : IAgentsRepository
     {
-        private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
+        private const string ConnectionString = "Data Source=metricsmanager.db;Version=3;Pooling=true;Max Pool Size=100;";
         public AgentsRepository()
         {
             SqlMapper.AddTypeHandler(new TimeSpanHandler());

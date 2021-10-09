@@ -11,7 +11,7 @@ namespace MetricsManager.Repositories
 {
     public class RamMetricsRepository : IRamMetricsRepository
     {
-        private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
+        private const string ConnectionString = "Data Source=metricsmanager.db;Version=3;Pooling=true;Max Pool Size=100;";
         // инжектируем соединение с базой данных в наш репозиторий через конструктор
 
         public RamMetricsRepository()

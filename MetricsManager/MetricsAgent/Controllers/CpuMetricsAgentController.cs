@@ -83,8 +83,20 @@ namespace MetricsAgent.Controllers
         [HttpGet("from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetricsFromAgent([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
-            _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");            
-            return Ok(_repository.GetByTimePeriod(fromTime, toTime));
+            _logger.LogInformation($"Agent - FromTime: {fromTime}, ToTime: {toTime}");
+            IList<CpuMetric> metrics = _repository.GetByTimePeriod(fromTime, toTime);
+
+            var response = new AllCpuMetricsResponse()
+            {
+                Metrics = new List<CpuMetricDto>()
+            };
+
+            foreach (var metric in metrics)
+            {
+                response.Metrics.Add(_mapper.Map<CpuMetricDto>(metric));
+            }
+
+            return Ok(response);
         }        
     }
 }

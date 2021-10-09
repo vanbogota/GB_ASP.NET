@@ -44,7 +44,7 @@ namespace MetricsManager.Controllers
         {
             IList<HddMetric> metrics = _repository.GetAll();
 
-            var response = new AllHddMetricsResponse()
+            AllHddMetricsResponse response = new AllHddMetricsResponse()
             {
                 Metrics = new List<HddMetricDto>()
             };

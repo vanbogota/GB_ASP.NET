@@ -13,7 +13,7 @@ namespace MetricsManager.Migrations
         {
             Create.Table("agents")
                 .WithColumn("AgentId").AsInt64().PrimaryKey().Identity()
-                .WithColumn("AgentAdress").AsString();
+                .WithColumn("AgentAdress");
 
             Create.Table("cpumetrics")
                 .WithColumn("Id").AsInt64().PrimaryKey().Identity()

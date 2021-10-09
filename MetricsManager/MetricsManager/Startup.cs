@@ -32,7 +32,7 @@ namespace MetricsManager
 
         public IConfiguration Configuration { get; }
         
-        private const string ConnectionString = @"Data Source=metrics.db; Version=3;";
+        private const string ConnectionString = @"Data Source=metricsmanager.db; Version=3;";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -59,15 +59,18 @@ namespace MetricsManager
             services.AddSingleton<IJobFactory, SingletonJobFactory>();
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
             services.AddSingleton<CpuMetricJob>();
+            services.AddSingleton(new JobSchedule(
+                jobType: typeof(CpuMetricJob),
+                cronExpression: "0/5 * * * * ?"));
             services.AddSingleton<RamMetricJob>();
             services.AddSingleton<HddMetricJob>();
             services.AddHostedService<QuartzHostedService>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v2", new OpenApiInfo
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Version = "v2",
-                    Title = "API сервиса агента сбора метрик",
+                    Version = "v1",
+                    Title = "API сервиса менеджера сбора метрик",
                     Description = "Тут можно поиграть с api нашего сервиса",
                     
                 });
